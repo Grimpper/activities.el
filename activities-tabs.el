@@ -69,7 +69,6 @@ accordingly."
                         (activities-switch-buffer . activities-tabs--switch-buffer))))
     (if activities-tabs-mode
         (progn
-          (tab-bar-mode 1)
           (add-hook 'window-configuration-change-hook #'activities-tabs--window-configuration-change)
           (advice-add #'activities-resume :before #'activities-tabs-before-resume)
           (pcase-dolist (`(,symbol . ,function) override-map)
@@ -143,7 +142,6 @@ closed."
 
 (defun activities-tabs--window-configuration-change ()
   "Add frame's windows' buffers to the current tab's `buffer-list' parameter."
-  (cl-assert tab-bar-mode)
   (let ((tab (tab-bar--current-tab-find)))
     (walk-windows (lambda (window)
                     (cl-pushnew (window-buffer window)
